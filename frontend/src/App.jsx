@@ -1,33 +1,50 @@
-import React from "react";
-import { Route, Routes, Navigate } from "react-router-dom";
-
+// src/App.jsx
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Login from "./pages/Login";
-import SignUp from "./pages/SignUp";
-import Navbar from "./components/Navbar";
+import Signup from "./pages/Signup";
 import Home from "./pages/Home";
 import CreatePost from "./pages/CreatePost";
 import BlogDetails from "./pages/BlogDetails";
 import Profile from "./pages/Profile";
 import Topics from "./pages/Topics";
+import Navbar from "./components/Navbar";
+import ChangePassword from "./pages/ChangePassword"; 
 
-import "/src/styles.css";
 
-const App = () => {
+// Inside <Routes>
+
+
+
+function AppWrapper() {
+  const location = useLocation();
+  const hideNavbar = ["/login", "/signup"].includes(location.pathname);
+
   return (
     <>
-      <Navbar />
+      {!hideNavbar && <Navbar />}
       <Routes>
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/create-post" element={<CreatePost />} />
-        <Route path="/blog/:id" element={<BlogDetails />} />
+        <Route path="/create" element={<CreatePost />} />
+        <Route path="/blogs/:id" element={<BlogDetails />} />
         <Route path="/profile" element={<Profile />} />
+        
+<Route path="/change-password" element={<ChangePassword />} />
         <Route path="/topics" element={<Topics />} />
+        
       </Routes>
     </>
   );
-};
+}
+
+function App() {
+  return (
+    <Router>
+      <AppWrapper />
+    </Router>
+  );
+}
 
 export default App;
